@@ -1,0 +1,161 @@
+
+/* styles.css */
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.navbar-container {
+    width: 95%;
+    margin: 0 auto;
+}
+
+nav {
+    background-color: #1565c0;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+}
+
+.brand-logo i {
+    margin-right: 10px;
+}
+
+.main-content {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: calc(100vh - 64px);
+    padding: 20px 0;
+}
+
+.main-content .container {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    padding: 30px;
+    margin-top: 20px;
+}
+
+#heading {
+    color: #1565c0;
+    font-weight: 300;
+    margin-top: 20px;
+}
+
+.hero-image {
+    max-width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.action-button {
+    background-color: #1565c0 !important;
+    margin: 30px 0;
+    padding: 0 30px;
+}
+
+.action-button:hover {
+    background-color: #0d47a1 !important;
+}
+
+/* Book Cards Styling */
+.book-card {
+    height: 100%;
+}
+
+.book-card .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.book-card .card-image {
+    height: 300px;
+    overflow: hidden;
+}
+
+.book-card .card-image img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.book-card .card-content {
+    flex-grow: 1;
+}
+
+.book-card .card-title {
+    font-size: 1.3rem !important;
+    font-weight: 500;
+}
+
+.book-author {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.book-year {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.book-genre {
+    display: inline-block;
+    background-color: #1565c0;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-top: 10px;
+}
+
+.card-reveal {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-reveal .card-title {
+    cursor: pointer;
+}
+
+/* Modal Styling */
+.modal {
+    max-height: 90%;
+}
+
+.modal .modal-footer {
+    background-color: #f5f5f5;
+}
+
+/* Footer */
+.page-footer {
+    background-color: #1565c0;
+    padding-top: 0;
+}
+
+.page-footer p {
+    margin: 20px 0;
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 600px) {
+    .hero-image {
+        height: 250px;
+    }
+    
+    .book-card .card-image {
+        height: 200px;
+    }
+    
+    #heading {
+        font-size: 2rem;
+    }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "sit725-task-3.2p-books",
+  "version": "1.0.0",
+  "description": "Books Library Web Application for SIT 725 Task 3.2P",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "materialize",
+    "books",
+    "library",
+    "sit725"
+  ],
+  "author": "Shenal Fernando",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
