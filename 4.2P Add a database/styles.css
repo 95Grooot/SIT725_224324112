@@ -1,0 +1,281 @@
+/* Global Styles */
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background-color: #f5f5f5;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+/* Hero Section */
+.hero-section {
+    padding: 60px 0;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.hero-title {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 300;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    margin: 10px 0 20px 0;
+    opacity: 0.9;
+}
+
+.hero-icon {
+    margin-top: 20px;
+}
+
+.hero-icon i {
+    font-size: 80px;
+}
+
+/* Navigation */
+.brand-logo {
+    display: flex;
+    align-items: center;
+}
+
+.brand-logo i {
+    margin-right: 10px;
+}
+
+/* Stats Section */
+.stats-section {
+    margin-top: -30px;
+    margin-bottom: 30px;
+}
+
+.stats-section .card-panel {
+    padding: 20px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.stats-section .card-panel:hover {
+    transform: translateY(-5px);
+}
+
+.stats-section .card-panel i {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.stats-section .card-panel h4 {
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.stats-section .card-panel p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Task Cards */
+.task-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.task-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+.task-card .card-content {
+    padding: 20px;
+}
+
+.task-card .card-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.task-card .card-title i {
+    margin-right: 10px;
+}
+
+.task-description {
+    color: #666;
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+.task-meta {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.task-meta-item {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.task-meta-item i {
+    font-size: 1.2rem;
+    margin-right: 5px;
+}
+
+/* Priority Badges */
+.priority-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.priority-low {
+    background-color: #4caf50;
+    color: white;
+}
+
+.priority-medium {
+    background-color: #ff9800;
+    color: white;
+}
+
+.priority-high {
+    background-color: #f44336;
+    color: white;
+}
+
+.priority-critical {
+    background-color: #9c27b0;
+    color: white;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.status-todo {
+    background-color: #2196f3;
+    color: white;
+}
+
+.status-inprogress {
+    background-color: #ff9800;
+    color: white;
+}
+
+.status-testing {
+    background-color: #9c27b0;
+    color: white;
+}
+
+.status-completed {
+    background-color: #4caf50;
+    color: white;
+}
+
+/* Technology Tag */
+.tech-tag {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    display: inline-block;
+}
+
+/* Filter Section */
+.card {
+    border-radius: 8px;
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+}
+
+.card-title i {
+    margin-right: 10px;
+}
+
+/* Modal Styling */
+.modal {
+    border-radius: 8px;
+    max-width: 700px;
+}
+
+.modal-content h4 {
+    display: flex;
+    align-items: center;
+}
+
+.modal-content h4 i {
+    margin-right: 10px;
+}
+
+/* Footer */
+.page-footer {
+    padding-top: 20px;
+    margin-top: 40px;
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 600px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .stats-section .card-panel h4 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Loading State */
+.loading-spinner {
+    text-align: center;
+    padding: 40px;
+}
+
+.loading-spinner .preloader-wrapper {
+    margin: 0 auto;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+.empty-state i {
+    font-size: 80px;
+    color: #ccc;
+}
+
+.empty-state h5 {
+    color: #666;
+    margin-top: 20px;
+}
