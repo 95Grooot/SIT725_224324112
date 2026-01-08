@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIT725 Task 2.2P - Express Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .operations {
+            margin: 20px 0;
+        }
+
+        .operations button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .operations button.active {
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .calculate-btn:hover {
+            background-color: #218838;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .result-value {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .api-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ccc;
+        }
+
+        .api-info h3 {
+            margin-bottom: 10px;
+        }
+
+        .endpoint {
+            background-color: #f5f5f5;
+            padding: 8px;
+            margin-bottom: 5px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Express Calculator</h1>
+    <p style="text-align: center;">SIT725 Task 2.2P - REST API Demo</p>
+
+    <div class="form-group">
+        <label for="num1">First Number</label>
+        <input type="number" id="num1" placeholder="Enter first number">
+    </div>
+
+    <div class="form-group">
+        <label for="num2">Second Number</label>
+        <input type="number" id="num2" placeholder="Enter second number">
+    </div>
+
+    <div class="operations">
+        <button class="active" data-op="add">+</button>
+        <button data-op="subtract">-</button>
+        <button data-op="multiply">x</button>
+        <button data-op="divide">/</button>
+    </div>
+
+    <button class="calculate-btn" onclick="calculate()">Calculate</button>
+
+    <div class="result">
+        <div class="result-label">Result</div>
+        <div class="result-value" id="result">0</div>
+    </div>
+    <div class="error" id="error"></div>
+
+    <div class="api-info">
+        <h3>Available API Endpoints</h3>
+        <div class="endpoint">GET /api/add?num1=X&num2=Y</div>
+        <div class="endpoint">GET /api/subtract?num1=X&num2=Y</div>
+        <div class="endpoint">GET /api/multiply?num1=X&num2=Y</div>
+        <div class="endpoint">GET /api/divide?num1=X&num2=Y</div>
+        <div class="endpoint">POST /api/calculate</div>
+    </div>
+
+    <script>
+        let selectedOperation = 'add';
+
+        document.querySelectorAll('.operations button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.operations button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedOperation = btn.dataset.op;
+            });
+        });
+
+        async function calculate() {
+            const num1 = document.getElementById('num1').value;
+            const num2 = document.getElementById('num2').value;
+            const resultEl = document.getElementById('result');
+            const errorEl = document.getElementById('error');
+            
+            errorEl.textContent = '';
+
+            if (!num1 || !num2) {
+                errorEl.textContent = 'Please enter both numbers';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/calculate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        num1: parseFloat(num1),
+                        num2: parseFloat(num2),
+                        operation: selectedOperation
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    resultEl.textContent = data.result;
+                } else {
+                    errorEl.textContent = data.error;
+                    resultEl.textContent = '-';
+                }
+            } catch (err) {
+                errorEl.textContent = 'Error connecting to server';
+            }
+        }
+
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') calculate();
+            });
+        });
+    </script>
+</body>
+</html>
