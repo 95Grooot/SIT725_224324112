@@ -1,0 +1,226 @@
+/**
+ * Task Manager Styles
+ * ===================
+ * SIT725 Task 4.2P - Add a Database
+ * Author: Shenal Fernando (s224324112)
+ */
+
+/* Hero Section */
+.hero-section {
+    padding: 40px 0;
+    margin-bottom: 30px;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.hero-icon {
+    margin-top: 20px;
+}
+
+/* Stats Section */
+.stats-section {
+    margin-top: -50px;
+}
+
+.stats-section .card-panel {
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.stats-section .card-panel:hover {
+    transform: translateY(-5px);
+}
+
+.stats-section h4 {
+    font-size: 2.5rem;
+    margin: 10px 0;
+}
+
+/* Task Cards */
+.task-card {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2);
+}
+
+.task-card .card-title {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.task-description {
+    color: #666;
+    margin: 10px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Task Meta Info */
+.task-meta {
+    margin-top: 15px;
+}
+
+.task-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 8px 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.task-meta-item i {
+    color: #999;
+}
+
+.tech-tag {
+    background: #e3f2fd;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    color: #1976d2;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Badge Chips */
+.badge-chip {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-right: 5px;
+}
+
+/* Priority Colors */
+.priority-low {
+    background: #c8e6c9;
+    color: #2e7d32;
+}
+
+.priority-medium {
+    background: #fff9c4;
+    color: #f9a825;
+}
+
+.priority-high {
+    background: #ffccbc;
+    color: #e64a19;
+}
+
+.priority-critical {
+    background: #ffcdd2;
+    color: #c62828;
+}
+
+/* Status Colors */
+.status-todo {
+    background: #bbdefb;
+    color: #1565c0;
+}
+
+.status-inprogress {
+    background: #ffe0b2;
+    color: #ef6c00;
+}
+
+.status-testing {
+    background: #e1bee7;
+    color: #7b1fa2;
+}
+
+.status-completed {
+    background: #c8e6c9;
+    color: #2e7d32;
+}
+
+/* Empty State */
+.empty-state {
+    padding: 60px 20px;
+}
+
+.empty-state i {
+    font-size: 80px;
+}
+
+/* Filter Card */
+.card .card-content select {
+    margin-top: 10px;
+}
+
+/* Modal Styles */
+.modal {
+    max-width: 700px;
+    border-radius: 8px;
+}
+
+.modal h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal .input-field label {
+    font-size: 1rem;
+}
+
+/* Footer */
+.page-footer {
+    margin-top: 50px;
+    padding: 20px 0;
+}
+
+.page-footer p {
+    margin: 5px 0;
+}
+
+/* Navigation */
+nav .brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Card Action */
+.card-action {
+    padding: 10px 20px !important;
+}
+
+.card-action a {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Responsive adjustments */
+@media only screen and (max-width: 600px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .stats-section {
+        margin-top: 0;
+    }
+}

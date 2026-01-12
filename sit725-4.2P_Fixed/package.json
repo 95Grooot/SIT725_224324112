@@ -1,0 +1,21 @@
+{
+  "name": "sit725-week4-task-manager",
+  "version": "1.0.0",
+  "description": "SIT725 4.2P - Task Manager with MongoDB integration",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node scripts/seed.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": ["nodejs", "express", "mongodb", "task-management"],
+  "author": "Shenal Fernando - s224324112",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
