@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books Catalogue</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #007bff;
+        }
+
+        .instruction {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        #fetchBooksBtn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        #fetchBooksBtn:hover {
+            background-color: #0056b3;
+        }
+
+        .content-wrapper {
+            display: flex;
+            gap: 20px;
+        }
+
+        .books-list {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .book-details {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        #booksDisplay {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .book-item {
+            background: white;
+            padding: 12px 15px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-left: 4px solid #007bff;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .book-item:hover {
+            background-color: #e9ecef;
+        }
+
+        .book-item.selected {
+            background-color: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .book-item-text {
+            font-size: 1em;
+            color: #333;
+        }
+
+        #bookDetails {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        #bookDetails.visible {
+            display: block;
+        }
+
+        .detail-row {
+            margin-bottom: 12px;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .detail-value {
+            color: #555;
+        }
+
+        .loading {
+            text-align: center;
+            color: #666;
+            font-size: 1em;
+            padding: 20px;
+        }
+
+        .error {
+            text-align: center;
+            color: #dc3545;
+            font-size: 1em;
+            padding: 15px;
+            background: #f8d7da;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Books Catalogue developed by s1234567</h1>
+        <p class="instruction">Click the button below to get all food items from the server:</p>
+        
+        <button id="fetchBooksBtn">Get all books</button>
+
+        <div class="content-wrapper">
+            <div class="books-list">
+                <div id="booksDisplay"></div>
+            </div>
+            <div class="book-details">
+                <div id="bookDetails">
+                    <div class="detail-row">
+                        <span class="detail-label">Title:</span>
+                        <span class="detail-value" id="detailTitle"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Author:</span>
+                        <span class="detail-value" id="detailAuthor"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Year:</span>
+                        <span class="detail-value" id="detailYear"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Genre:</span>
+                        <span class="detail-value" id="detailGenre"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Summary:</span>
+                        <span class="detail-value" id="detailSummary"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Price (AUD):</span>
+                        <span class="detail-value" id="detailPrice"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const btn = document.getElementById('fetchBooksBtn');
+        const out = document.getElementById('booksDisplay');
+        const detailsPanel = document.getElementById('bookDetails');
+
+        let booksData = [];
+
+        function renderList(books) {
+            out.innerHTML = '';
+            
+            if (!Array.isArray(books) || books.length === 0) {
+                out.innerHTML = '<div class="error">No books found</div>';
+                return;
+            }
+
+            for (const book of books) {
+                const div = document.createElement('div');
+                div.className = 'book-item';
+                div.dataset.id = book.id;
+                
+                const price = typeof book.price === 'string' 
+                    ? book.price 
+                    : (book.price && book.price.$numberDecimal) || book.price || '';
+                
+                div.innerHTML = `<span class="book-item-text">${book.title} ${price} AUD</span>`;
+                
+                div.addEventListener('click', () => fetchBookDetails(book.id));
+                out.appendChild(div);
+            }
+        }
+
+        async function fetchBookDetails(id) {
+            // Highlight selected item
+            document.querySelectorAll('.book-item').forEach(item => {
+                item.classList.remove('selected');
+                if (item.dataset.id === id) {
+                    item.classList.add('selected');
+                }
+            });
+
+            try {
+                const res = await fetch(`/api/books/${id}`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const body = await res.json();
+                const book = body.data;
+
+                if (book) {
+                    const price = typeof book.price === 'string' 
+                        ? book.price 
+                        : (book.price && book.price.$numberDecimal) || book.price || '';
+
+                    document.getElementById('detailTitle').textContent = book.title;
+                    document.getElementById('detailAuthor').textContent = book.author;
+                    document.getElementById('detailYear').textContent = book.year;
+                    document.getElementById('detailGenre').textContent = book.genre;
+                    document.getElementById('detailSummary').textContent = book.summary;
+                    document.getElementById('detailPrice').textContent = price;
+                    
+                    detailsPanel.classList.add('visible');
+                }
+            } catch (err) {
+                console.error('Error fetching book details:', err);
+            }
+        }
+
+        btn.addEventListener('click', async () => {
+            out.innerHTML = '<div class="loading">Loading...</div>';
+            detailsPanel.classList.remove('visible');
+            
+            try {
+                const res = await fetch('/api/books');
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const body = await res.json();
+                booksData = body.data;
+                renderList(booksData);
+            } catch (err) {
+                console.error('Error fetching books:', err);
+                out.innerHTML = '<div class="error">Error fetching books.</div>';
+            }
+        });
+    </script>
+</body>
+</html>
