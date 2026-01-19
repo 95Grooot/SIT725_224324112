@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Hub - Live Users</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>Recipe Hub</span>
+            </div>
+            <div class="online-badge" id="onlineBadge">
+                <span class="pulse"></span>
+                <i class="fas fa-users"></i>
+                <span id="userCount">0</span> Chefs Online
+            </div>
+        </header>
+
+        <!-- Welcome Message -->
+        <div class="welcome-card" id="welcomeCard">
+            <h2 id="welcomeMessage">Connecting...</h2>
+            <p>Your chef name: <strong id="yourName">-</strong></p>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-user-chef"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="liveCount">0</h3>
+                    <p>Live Users</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="connectionStatus">Connecting</h3>
+                    <p>Status</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Online Users List -->
+        <div class="users-section">
+            <h3><i class="fas fa-circle" style="color: #4CAF50; font-size: 10px;"></i> Currently Online</h3>
+            <div class="users-list" id="usersList">
+                <p class="no-users">No users online yet...</p>
+            </div>
+        </div>
+
+        <!-- Recipe Activity Feed -->
+        <div class="activity-section">
+            <h3><i class="fas fa-bell"></i> Live Activity</h3>
+            <div class="activity-feed" id="activityFeed">
+                <div class="activity-item">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Waiting for activity...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Demo Recipe Cards -->
+        <div class="recipes-section">
+            <h3>Browse Recipes</h3>
+            <p class="subtitle">Click a recipe to simulate viewing (others will see your activity!)</p>
+            <div class="recipes-grid">
+                <div class="recipe-card" onclick="viewRecipe('Spaghetti Carbonara')">
+                    <div class="recipe-img" style="background: linear-gradient(135deg, #f5af19, #f12711);">
+                        <i class="fas fa-bowl-food"></i>
+                    </div>
+                    <h4>Spaghetti Carbonara</h4>
+                    <p>Italian Classic</p>
+                </div>
+                <div class="recipe-card" onclick="viewRecipe('Chocolate Cake')">
+                    <div class="recipe-img" style="background: linear-gradient(135deg, #8B4513, #D2691E);">
+                        <i class="fas fa-cake-candles"></i>
+                    </div>
+                    <h4>Chocolate Cake</h4>
+                    <p>Dessert</p>
+                </div>
+                <div class="recipe-card" onclick="viewRecipe('Caesar Salad')">
+                    <div class="recipe-img" style="background: linear-gradient(135deg, #56ab2f, #a8e063);">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h4>Caesar Salad</h4>
+                    <p>Healthy</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>SIT725 - Applied Software Engineering | Socket.IO Demo</p>
+            <p>Group 1 - Recipe Management System</p>
+        </footer>
+    </div>
+
+    <!-- Socket.IO Client Library -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
