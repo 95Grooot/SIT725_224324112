@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books Catalogue</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5; padding: 20px; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #333; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 3px solid #007bff; }
+        .instruction { color: #666; margin-bottom: 20px; }
+        .btn { background-color: #007bff; color: white; border: none; padding: 10px 20px; font-size: 1em; cursor: pointer; border-radius: 4px; margin-right: 10px; margin-bottom: 10px; }
+        .btn:hover { background-color: #0056b3; }
+        .btn-success { background-color: #28a745; }
+        .btn-success:hover { background-color: #1e7e34; }
+        .btn-warning { background-color: #ffc107; color: #333; }
+        .btn-warning:hover { background-color: #e0a800; }
+        .main-content { display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap; }
+        .left-panel { flex: 1; min-width: 300px; }
+        .right-panel { flex: 1; min-width: 400px; }
+        #booksDisplay { display: flex; flex-direction: column; gap: 5px; max-height: 500px; overflow-y: auto; }
+        .book-item { background: white; padding: 12px 15px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-left: 4px solid #007bff; cursor: pointer; transition: background-color 0.2s; }
+        .book-item:hover { background-color: #e9ecef; }
+        .book-item.selected { background-color: #d4edda; border-left-color: #28a745; }
+        .form-section { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .form-section h3 { margin-bottom: 15px; color: #333; border-bottom: 2px solid #007bff; padding-bottom: 5px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 1em; }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #007bff; box-shadow: 0 0 3px rgba(0,123,255,0.3); }
+        .message { padding: 10px 15px; border-radius: 4px; margin-bottom: 15px; display: none; }
+        .message.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; display: block; }
+        .message.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; display: block; }
+        .loading { text-align: center; color: #666; padding: 20px; }
+        #bookDetails { display: none; }
+        #bookDetails.visible { display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Books Catalogue developed by Shenal Naveen Fernando</h1>
+        <p class="instruction">Manage your book collection with safe write operations and server-side validation.</p>
+        
+        <button class="btn" id="fetchBooksBtn">Get all books</button>
+        <button class="btn btn-success" id="showCreateBtn">+ Add New Book</button>
+
+        <div class="main-content">
+            <div class="left-panel">
+                <h3>Books List</h3>
+                <div id="booksDisplay"><p class="loading">Click "Get all books" to load books</p></div>
+            </div>
+
+            <div class="right-panel">
+                <!-- Create Book Form -->
+                <div class="form-section" id="createFormSection" style="display: none;">
+                    <h3>Create New Book</h3>
+                    <div id="createMessage" class="message"></div>
+                    <form id="createForm">
+                        <div class="form-group">
+                            <label for="createId">Book ID *</label>
+                            <input type="text" id="createId" name="id" required placeholder="e.g., b6">
+                        </div>
+                        <div class="form-group">
+                            <label for="createTitle">Title *</label>
+                            <input type="text" id="createTitle" name="title" required placeholder="Book title">
+                        </div>
+                        <div class="form-group">
+                            <label for="createAuthor">Author *</label>
+                            <input type="text" id="createAuthor" name="author" required placeholder="Author name">
+                        </div>
+                        <div class="form-group">
+                            <label for="createYear">Year *</label>
+                            <input type="number" id="createYear" name="year" required placeholder="Publication year">
+                        </div>
+                        <div class="form-group">
+                            <label for="createGenre">Genre *</label>
+                            <select id="createGenre" name="genre" required>
+                                <option value="">Select genre...</option>
+                                <option value="Science Fiction">Science Fiction</option>
+                                <option value="Classic">Classic</option>
+                                <option value="Historical Fiction">Historical Fiction</option>
+                                <option value="Fantasy">Fantasy</option>
+                                <option value="Mystery">Mystery</option>
+                                <option value="Romance">Romance</option>
+                                <option value="Thriller">Thriller</option>
+                                <option value="Non-Fiction">Non-Fiction</option>
+                                <option value="Biography">Biography</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="createSummary">Summary *</label>
+                            <textarea id="createSummary" name="summary" required placeholder="Book summary (min 10 characters)"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="createPrice">Price (AUD) *</label>
+                            <input type="text" id="createPrice" name="price" required placeholder="e.g., 29.99">
+                        </div>
+                        <button type="submit" class="btn btn-success">Create Book</button>
+                        <button type="button" class="btn" onclick="hideCreateForm()">Cancel</button>
+                    </form>
+                </div>
+
+                <!-- Book Details / Update Form -->
+                <div class="form-section" id="bookDetails">
+                    <h3>Book Details</h3>
+                    <div id="updateMessage" class="message"></div>
+                    <form id="updateForm">
+                        <input type="hidden" id="updateId">
+                        <div class="form-group">
+                            <label>Book ID (immutable)</label>
+                            <input type="text" id="displayId" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateTitle">Title *</label>
+                            <input type="text" id="updateTitle" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateAuthor">Author *</label>
+                            <input type="text" id="updateAuthor" name="author" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateYear">Year *</label>
+                            <input type="number" id="updateYear" name="year" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateGenre">Genre *</label>
+                            <select id="updateGenre" name="genre" required>
+                                <option value="Science Fiction">Science Fiction</option>
+                                <option value="Classic">Classic</option>
+                                <option value="Historical Fiction">Historical Fiction</option>
+                                <option value="Fantasy">Fantasy</option>
+                                <option value="Mystery">Mystery</option>
+                                <option value="Romance">Romance</option>
+                                <option value="Thriller">Thriller</option>
+                                <option value="Non-Fiction">Non-Fiction</option>
+                                <option value="Biography">Biography</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateSummary">Summary *</label>
+                            <textarea id="updateSummary" name="summary" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="updatePrice">Price (AUD) *</label>
+                            <input type="text" id="updatePrice" name="price" required>
+                        </div>
+                        <button type="submit" class="btn btn-warning">Update Book</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fetchBtn = document.getElementById('fetchBooksBtn');
+        const showCreateBtn = document.getElementById('showCreateBtn');
+        const booksDisplay = document.getElementById('booksDisplay');
+        const createFormSection = document.getElementById('createFormSection');
+        const bookDetails = document.getElementById('bookDetails');
+        const createForm = document.getElementById('createForm');
+        const updateForm = document.getElementById('updateForm');
+        const createMessage = document.getElementById('createMessage');
+        const updateMessage = document.getElementById('updateMessage');
+
+        showCreateBtn.addEventListener('click', () => {
+            createFormSection.style.display = 'block';
+            bookDetails.classList.remove('visible');
+            createForm.reset();
+            hideMessage(createMessage);
+        });
+
+        function hideCreateForm() { createFormSection.style.display = 'none'; }
+        function showMessage(el, type, text) { el.className = 'message ' + type; el.textContent = text; }
+        function hideMessage(el) { el.className = 'message'; el.textContent = ''; }
+
+        function renderList(books) {
+            booksDisplay.innerHTML = '';
+            if (!Array.isArray(books) || books.length === 0) {
+                booksDisplay.innerHTML = '<p class="loading">No books found</p>';
+                return;
+            }
+            books.forEach(book => {
+                const div = document.createElement('div');
+                div.className = 'book-item';
+                div.dataset.id = book.id;
+                const price = typeof book.price === 'string' ? book.price : (book.price && book.price.$numberDecimal) || book.price || '';
+                div.innerHTML = `<strong>${book.title}</strong><br><small>${book.author} - ${price} AUD</small>`;
+                div.addEventListener('click', () => loadBookDetails(book.id));
+                booksDisplay.appendChild(div);
+            });
+        }
+
+        async function fetchBooks() {
+            booksDisplay.innerHTML = '<p class="loading">Loading...</p>';
+            try {
+                const res = await fetch('/api/books');
+                const body = await res.json();
+                renderList(body.data || []);
+            } catch (err) {
+                booksDisplay.innerHTML = '<p class="loading">Error loading books</p>';
+            }
+        }
+
+        fetchBtn.addEventListener('click', fetchBooks);
+
+        async function loadBookDetails(id) {
+            document.querySelectorAll('.book-item').forEach(item => {
+                item.classList.toggle('selected', item.dataset.id === id);
+            });
+            try {
+                const res = await fetch(`/api/books/${id}`);
+                const body = await res.json();
+                const book = body.data;
+                if (book) {
+                    createFormSection.style.display = 'none';
+                    bookDetails.classList.add('visible');
+                    hideMessage(updateMessage);
+                    document.getElementById('updateId').value = book.id;
+                    document.getElementById('displayId').value = book.id;
+                    document.getElementById('updateTitle').value = book.title;
+                    document.getElementById('updateAuthor').value = book.author;
+                    document.getElementById('updateYear').value = book.year;
+                    document.getElementById('updateGenre').value = book.genre;
+                    document.getElementById('updateSummary').value = book.summary;
+                    const price = typeof book.price === 'string' ? book.price : (book.price && book.price.$numberDecimal) || book.price || '';
+                    document.getElementById('updatePrice').value = price;
+                }
+            } catch (err) { console.error('Error:', err); }
+        }
+
+        createForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMessage(createMessage);
+            const formData = {
+                id: document.getElementById('createId').value.trim(),
+                title: document.getElementById('createTitle').value.trim(),
+                author: document.getElementById('createAuthor').value.trim(),
+                year: parseInt(document.getElementById('createYear').value),
+                genre: document.getElementById('createGenre').value,
+                summary: document.getElementById('createSummary').value.trim(),
+                price: document.getElementById('createPrice').value.trim()
+            };
+            try {
+                const res = await fetch('/api/books', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                const body = await res.json();
+                if (res.status === 201) {
+                    showMessage(createMessage, 'success', 'Book created successfully!');
+                    createForm.reset();
+                    fetchBooks();
+                } else {
+                    showMessage(createMessage, 'error', `Error ${res.status}: ${body.message}`);
+                }
+            } catch (err) { showMessage(createMessage, 'error', 'Network error'); }
+        });
+
+        updateForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMessage(updateMessage);
+            const id = document.getElementById('updateId').value;
+            const formData = {
+                title: document.getElementById('updateTitle').value.trim(),
+                author: document.getElementById('updateAuthor').value.trim(),
+                year: parseInt(document.getElementById('updateYear').value),
+                genre: document.getElementById('updateGenre').value,
+                summary: document.getElementById('updateSummary').value.trim(),
+                price: document.getElementById('updatePrice').value.trim()
+            };
+            try {
+                const res = await fetch(`/api/books/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                const body = await res.json();
+                if (res.status === 200) {
+                    showMessage(updateMessage, 'success', 'Book updated successfully!');
+                    fetchBooks();
+                } else {
+                    showMessage(updateMessage, 'error', `Error ${res.status}: ${body.message}`);
+                }
+            } catch (err) { showMessage(updateMessage, 'error', 'Network error'); }
+        });
+    </script>
+</body>
+</html>
